@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenerationZ Token dApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .connect-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .connect-btn:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .status p {
+            margin: 8px 0;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .status strong {
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f4ff;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #667eea;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .recipient-list {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85em;
+        }
+
+        .recipient-item {
+            padding: 5px;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .recipient-item:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .btn-group {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tx-hash {
+            color: #667eea;
+            word-break: break-all;
+            font-size: 0.85em;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            padding: 5px 10px;
+            font-size: 0.8em;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 GenerationZ Token</h1>
+            <p>Decentralized Application</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Wallet Connection Card -->
+            <div class="card">
+                <h2>👛 Wallet</h2>
+                <button class="connect-btn" onclick="connectWallet()">
+                    <span id="walletBtnText">Connect MetaMask</span>
+                </button>
+                <div class="status">
+                    <p><strong>Status:</strong> <span id="statusText">Not Connected</span></p>
+                    <p><strong>Address:</strong> <span id="addressText">-</span></p>
+                    <p><strong>Balance:</strong> <span id="balanceText">-</span> GenZ</p>
+                    <p><strong>Network:</strong> <span id="networkText">-</span></p>
+                </div>
+            </div>
+
+            <!-- Token Info Card -->
+            <div class="card">
+                <h2>ℹ️ Contract Info</h2>
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-label">Total Supply</div>
+                        <div class="stat-value" id="totalSupply">-</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Decimals</div>
+                        <div class="stat-value" id="decimals">18</div>
+                    </div>
+                </div>
+                <div class="status">
+                    <p><strong>Name:</strong> Generation Z</p>
+                    <p><strong>Symbol:</strong> GenZ</p>
+                    <p><strong>Address:</strong> <span class="tx-hash">0x63C8BD63563B9d6A1e698585bC8f86D1249ADC16</span></p>
+                    <p><strong>Network:</strong> Robinhood Testnet</p>
+                </div>
+                <button class="btn-secondary full-width" onclick="loadContractInfo()" style="margin-top: 15px;">
+                    Refresh Info
+                </button>
+            </div>
+
+            <!-- Transfer Card -->
+            <div class="card">
+                <h2>💸 Single Transfer</h2>
+                <div class="form-group">
+                    <label for="transferTo">Recipient Address</label>
+                    <input type="text" id="transferTo" placeholder="0x...">
+                </div>
+                <div class="form-group">
+                    <label for="transferAmount">Amount (GenZ)</label>
+                    <input type="number" id="transferAmount" placeholder="100" min="0.01" step="0.01">
+                </div>
+                <button class="btn-primary full-width" onclick="performTransfer()">
+                    Send Tokens
+                </button>
+                <div id="transferAlert"></div>
+            </div>
+
+            <!-- Bulk Transfer Card -->
+            <div class="card">
+                <h2>📦 Bulk Transfer</h2>
+                <div class="form-group">
+                    <label for="bulkAmount">Amount per Address (GenZ)</label>
+                    <input type="number" id="bulkAmount" placeholder="1200" min="0.01" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="bulkRecipients">Recipients (one per line)</label>
+                    <textarea id="bulkRecipients" placeholder="0x...\n0x...\n0x..."></textarea>
+                    <div class="info-text">Paste addresses separated by newlines</div>
+                </div>
+                <button class="btn-primary full-width" onclick="performBulkTransfer()">
+                    Send to Multiple Addresses
+                </button>
+                <div id="bulkTransferInfo" style="margin-top: 15px;"></div>
+                <div id="bulkTransferAlert"></div>
+            </div>
+
+            <!-- Approve Card -->
+            <div class="card">
+                <h2>✔️ Approve Spending</h2>
+                <div class="form-group">
+                    <label for="approveTo">Spender Address</label>
+                    <input type="text" id="approveTo" placeholder="0x...">
+                </div>
+                <div class="form-group">
+                    <label for="approveAmount">Amount (GenZ)</label>
+                    <input type="number" id="approveAmount" placeholder="10000" min="0" step="0.01">
+                </div>
+                <button class="btn-primary full-width" onclick="performApprove()">
+                    Approve
+                </button>
+                <div id="approveAlert"></div>
+            </div>
+
+            <!-- Burn Card -->
+            <div class="card">
+                <h2>🔥 Burn Tokens</h2>
+                <div class="form-group">
+                    <label for="burnAmount">Amount to Burn (GenZ)</label>
+                    <input type="number" id="burnAmount" placeholder="100" min="0.01" step="0.01">
+                    <div class="info-text">This action is permanent and cannot be reversed</div>
+                </div>
+                <button class="btn-primary full-width" onclick="performBurn()">
+                    Burn Tokens
+                </button>
+                <div id="burnAlert"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script>
+        // Configuration
+        const CONTRACT_ADDRESS = "0x63C8BD63563B9d6A1e698585bC8f86D1249ADC16";
+        const CHAIN_ID = 46630;
+        const RPC_URL = "https://explorer.testnet.chain.robinhood.com/rpc";
+
+        // Contract ABI (ERC20 Standard)
+        const CONTRACT_ABI = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "name",
+                "outputs": [{"name": "", "type": "string"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "symbol",
+                "outputs": [{"name": "", "type": "string"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "decimals",
+                "outputs": [{"name": "", "type": "uint8"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [{"name": "", "type": "uint256"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [{"name": "_owner", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"name": "balance", "type": "uint256"}],
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}],
+                "name": "transfer",
+                "outputs": [{"name": "", "type": "bool"}],
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}],
+                "name": "approve",
+                "outputs": [{"name": "", "type": "bool"}],
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [{"name": "_value", "type": "uint256"}],
+                "name": "burn",
+                "outputs": [],
+                "type": "function"
+            }
+        ];
+
+        let web3;
+        let contract;
+        let userAccount;
+
+        // Initialize Web3
+        async function initWeb3() {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                return true;
+            } else {
+                showAlert("Please install MetaMask", "error", "walletAlert");
+                return false;
+            }
+        }
+
+        // Connect Wallet
+        async function connectWallet() {
+            try {
+                if (!await initWeb3()) return;
+
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                userAccount = accounts[0];
+
+                // Check network
+                const chainId = await web3.eth.getChainId();
+                if (chainId !== CHAIN_ID) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: web3.utils.toHex(CHAIN_ID) }],
+                        });
+                    } catch (error) {
+                        showAlert("Please switch to Robinhood Testnet", "error");
+                        return;
+                    }
+                }
+
+                updateWalletStatus();
+                loadContractInfo();
+                showAlert("Wallet connected successfully!", "success");
+            } catch (error) {
+                showAlert("Connection failed: " + error.message, "error");
+            }
+        }
+
+        // Update Wallet Status
+        async function updateWalletStatus() {
+            if (!userAccount) return;
+
+            try {
+                document.getElementById("statusText").textContent = "Connected";
+                document.getElementById("addressText").textContent = userAccount;
+                document.getElementById("walletBtnText").textContent = "✓ Connected";
+
+                const balance = await contract.methods.balanceOf(userAccount).call();
+                const decimals = await contract.methods.decimals().call();
+                const formattedBalance = web3.utils.fromWei(balance, 'ether');
+                document.getElementById("balanceText").textContent = parseFloat(formattedBalance).toFixed(2);
+
+                const networkId = await web3.eth.getChainId();
+                document.getElementById("networkText").textContent = networkId === CHAIN_ID ? "✓ Robinhood Testnet" : "Wrong Network";
+            } catch (error) {
+                console.error("Error updating wallet status:", error);
+            }
+        }
+
+        // Load Contract Info
+        async function loadContractInfo() {
+            try {
+                const totalSupply = await contract.methods.totalSupply().call();
+                const formattedSupply = web3.utils.fromWei(totalSupply, 'ether');
+                document.getElementById("totalSupply").textContent = parseFloat(formattedSupply).toLocaleString();
+
+                if (userAccount) {
+                    updateWalletStatus();
+                }
+            } catch (error) {
+                console.error("Error loading contract info:", error);
+            }
+        }
+
+        // Perform Transfer
+        async function performTransfer() {
+            if (!userAccount) {
+                showAlert("Please connect your wallet first", "error", "transferAlert");
+                return;
+            }
+
+            const recipient = document.getElementById("transferTo").value.trim();
+            const amount = document.getElementById("transferAmount").value;
+
+            if (!recipient || !amount) {
+                showAlert("Please fill in all fields", "error", "transferAlert");
+                return;
+            }
+
+            if (!web3.utils.isAddress(recipient)) {
+                showAlert("Invalid recipient address", "error", "transferAlert");
+                return;
+            }
+
+            try {
+                showAlert("Processing transaction...", "info", "transferAlert");
+
+                const amountInWei = web3.utils.toWei(amount, 'ether');
+                const tx = await contract.methods.transfer(recipient, amountInWei).send({ from: userAccount });
+
+                showAlert(`✅ Transfer successful! TX: ${tx.transactionHash}`, "success", "transferAlert");
+                document.getElementById("transferTo").value = "";
+                document.getElementById("transferAmount").value = "";
+                updateWalletStatus();
+            } catch (error) {
+                showAlert("Transfer failed: " + error.message, "error", "transferAlert");
+            }
+        }
+
+        // Perform Bulk Transfer
+        async function performBulkTransfer() {
+            if (!userAccount) {
+                showAlert("Please connect your wallet first", "error", "bulkTransferAlert");
+                return;
+            }
+
+            const recipientsText = document.getElementById("bulkRecipients").value.trim();
+            const amount = document.getElementById("bulkAmount").value;
+
+            if (!recipientsText || !amount) {
+                showAlert("Please fill in all fields", "error", "bulkTransferAlert");
+                return;
+            }
+
+            const recipients = recipientsText.split('\n')
+                .map(addr => addr.trim())
+                .filter(addr => addr.length > 0);
+
+            if (recipients.length === 0) {
+                showAlert("No valid addresses found", "error", "bulkTransferAlert");
+                return;
+            }
+
+            // Validate addresses
+            for (let i = 0; i < recipients.length; i++) {
+                if (!web3.utils.isAddress(recipients[i])) {
+                    showAlert(`Invalid address at line ${i + 1}: ${recipients[i]}`, "error", "bulkTransferAlert");
+                    return;
+                }
+            }
+
+            // Show info
+            const totalNeeded = (parseFloat(amount) * recipients.length).toFixed(2);
+            document.getElementById("bulkTransferInfo").innerHTML = `
+                <div class="status">
+                    <p><strong>Recipients:</strong> ${recipients.length}</p>
+                    <p><strong>Amount per recipient:</strong> ${amount} GenZ</p>
+                    <p><strong>Total tokens needed:</strong> ${totalNeeded} GenZ</p>
+                </div>
+            `;
+
+            try {
+                showAlert("Processing bulk transfer...", "info", "bulkTransferAlert");
+
+                const amountInWei = web3.utils.toWei(amount, 'ether');
+                let successCount = 0;
+                let failCount = 0;
+
+                for (let i = 0; i < recipients.length; i++) {
+                    try {
+                        const tx = await contract.methods.transfer(recipients[i], amountInWei).send({ from: userAccount });
+                        successCount++;
+                        document.getElementById("bulkTransferInfo").innerHTML += `
+                            <div class="alert alert-success" style="margin-top: 10px;">
+                                [${i + 1}/${recipients.length}] ✅ Sent to ${recipients[i].substring(0, 10)}...
+                            </div>
+                        `;
+                    } catch (error) {
+                        failCount++;
+                        document.getElementById("bulkTransferInfo").innerHTML += `
+                            <div class="alert alert-error" style="margin-top: 10px;">
+                                [${i + 1}/${recipients.length}] ❌ Failed: ${error.message.substring(0, 50)}...
+                            </div>
+                        `;
+                    }
+                }
+
+                showAlert(`Bulk transfer complete! Success: ${successCount}, Failed: ${failCount}`, successCount > 0 ? "success" : "error", "bulkTransferAlert");
+                document.getElementById("bulkRecipients").value = "";
+                document.getElementById("bulkAmount").value = "";
+                updateWalletStatus();
+            } catch (error) {
+                showAlert("Bulk transfer failed: " + error.message, "error", "bulkTransferAlert");
+            }
+        }
+
+        // Perform Approve
+        async function performApprove() {
+            if (!userAccount) {
+                showAlert("Please connect your wallet first", "error", "approveAlert");
+                return;
+            }
+
+            const spender = document.getElementById("approveTo").value.trim();
+            const amount = document.getElementById("approveAmount").value;
+
+            if (!spender || !amount) {
+                showAlert("Please fill in all fields", "error", "approveAlert");
+                return;
+            }
+
+            if (!web3.utils.isAddress(spender)) {
+                showAlert("Invalid spender address", "error", "approveAlert");
+                return;
+            }
+
+            try {
+                showAlert("Processing approval...", "info", "approveAlert");
+
+                const amountInWei = web3.utils.toWei(amount, 'ether');
+                const tx = await contract.methods.approve(spender, amountInWei).send({ from: userAccount });
+
+                showAlert(`✅ Approval successful! TX: ${tx.transactionHash}`, "success", "approveAlert");
+                document.getElementById("approveTo").value = "";
+                document.getElementById("approveAmount").value = "";
+            } catch (error) {
+                showAlert("Approval failed: " + error.message, "error", "approveAlert");
+            }
+        }
+
+        // Perform Burn
+        async function performBurn() {
+            if (!userAccount) {
+                showAlert("Please connect your wallet first", "error", "burnAlert");
+                return;
+            }
+
+            const amount = document.getElementById("burnAmount").value;
+
+            if (!amount) {
+                showAlert("Please enter an amount", "error", "burnAlert");
+                return;
+            }
+
+            if (!confirm("⚠️ Are you sure you want to burn " + amount + " tokens? This action cannot be undone!")) {
+                return;
+            }
+
+            try {
+                showAlert("Processing burn...", "info", "burnAlert");
+
+                const amountInWei = web3.utils.toWei(amount, 'ether');
+                const tx = await contract.methods.burn(amountInWei).send({ from: userAccount });
+
+                showAlert(`✅ Burn successful! TX: ${tx.transactionHash}`, "success", "burnAlert");
+                document.getElementById("burnAmount").value = "";
+                updateWalletStatus();
+            } catch (error) {
+                showAlert("Burn failed: " + error.message, "error", "burnAlert");
+            }
+        }
+
+        // Show Alert
+        function showAlert(message, type, elementId = "transferAlert") {
+            const alertEl = document.getElementById(elementId);
+            alertEl.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                alertEl.innerHTML = "";
+            }, 10000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initWeb3();
+            await loadContractInfo();
+        });
+
+        // Listen for account changes
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', async (accounts) => {
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    updateWalletStatus();
+                } else {
+                    userAccount = null;
+                    document.getElementById("statusText").textContent = "Not Connected";
+                }
+            });
+
+            window.ethereum.on('chainChanged', () => {
+                window.location.reload();
+            });
+        }
+    </script>
+</body>
+</html>
