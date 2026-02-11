@@ -122,6 +122,61 @@ BURN_AMOUNT=100 npx hardhat run scripts/burn.js --network robinhood
 
 ---
 
+### 7. `bulkTransfer.js` - Bulk Transfer to Multiple Addresses
+Send the same amount of tokens to multiple addresses in one operation.
+
+```bash
+npx hardhat run scripts/bulkTransfer.js --network robinhood
+# Or with custom file:
+BULK_TRANSFER_FILE=customList.json npx hardhat run scripts/bulkTransfer.js --network robinhood
+```
+
+**Setup:**
+1. Create a JSON file (default: `bulkTransferList.json`) with the structure:
+
+```json
+{
+  "amount": "100",
+  "recipients": [
+    "0x1234567890123456789012345678901234567890",
+    "0x0987654321098765432109876543210987654321",
+    "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd"
+  ]
+}
+```
+
+**Environment Variables:**
+- `BULK_TRANSFER_FILE`: Path to custom JSON file (optional, default: `bulkTransferList.json`)
+
+**Features:**
+- Automatic address validation
+- Balance verification before transfers
+- Individual transaction hashing for each recipient
+- Progress tracking with success/failure count
+- Automatic confirmation waiting
+
+**Output:**
+- Pre-transfer balance
+- Number of recipients and total tokens
+- Per-recipient transaction progress
+- Transfer summary (successful/failed)
+- Post-transfer balance
+
+**Example bulkTransferList.json:**
+```json
+{
+  "amount": "500",
+  "recipients": [
+    "0x123...",
+    "0x456...",
+    "0x789...",
+    "0xabc..."
+  ]
+}
+```
+
+---
+
 ## Token Features
 
 The GenerationZ token supports:
@@ -154,6 +209,25 @@ APPROVE_SPENDER=0xcontract... APPROVE_AMOUNT=10000 npx hardhat run scripts/appro
 ### 4. Permanently remove tokens from circulation
 ```bash
 BURN_AMOUNT=1000 npx hardhat run scripts/burn.js --network robinhood
+```
+
+### 5. Bulk transfer to multiple addresses
+```bash
+# 1. Create bulkTransferList.json with recipients
+# 2. Run the script
+npx hardhat run scripts/bulkTransfer.js --network robinhood
+```
+
+Create `bulkTransferList.json`:
+```json
+{
+  "amount": "100",
+  "recipients": [
+    "0xAddress1...",
+    "0xAddress2...",
+    "0xAddress3..."
+  ]
+}
 ```
 
 ---
